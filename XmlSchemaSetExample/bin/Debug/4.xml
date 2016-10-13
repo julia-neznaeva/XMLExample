@@ -1,0 +1,58 @@
+<Application xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AppInfo>
+    <Id>18f08acc-1348-4e62-a928-afb4a257aa7f</Id>
+    <AdviserID />
+    <Type>Investment</Type>
+    <AppDate>2016-10-12</AppDate>
+  </AppInfo>
+  <FisApplication>
+    <ApplicationDetails>
+      <IndividualTrustee_FamilyTrust>
+        <Name>fghdfghdgh</Name>
+        <ABN>53004085616</ABN>
+        <Correspondent>
+          <GivenName>gfjfgjfgjh</GivenName>
+          <Surname>fgjfgjfgj</Surname>
+          <ResidentalAddress>
+            <Line1>fgjhfgjhfgjh</Line1>
+            <Subarb>fgjfgjf</Subarb>
+            <State>jhfgj</State>
+            <PostCode>fgjhj</PostCode>
+            <Country>AU</Country>
+          </ResidentalAddress>
+          <PostalSameAsResidential>true</PostalSameAsResidential>
+          <EmailAddress>dzgsdfgfg@fghdfghgd</EmailAddress>
+          <PhoneNumbers />
+        </Correspondent>
+        <Trustees>
+          <Trustee>
+            <GivenName>fgjfgjhfgjh</GivenName>
+            <Surname>fgjhfgjhfgjh</Surname>
+          </Trustee>
+        </Trustees>
+      </IndividualTrustee_FamilyTrust>
+      <Type>Post</Type>
+      <DoNotSendMarketingInfo>false</DoNotSendMarketingInfo>
+      <KYCCheckedDate>2016-10-12</KYCCheckedDate>
+      <KYCValidUntilDate>2016-10-12</KYCValidUntilDate>
+    </ApplicationDetails>
+    <SavingPlan>
+      <Amount>0</Amount>
+      <CommencementDate>2016-10-20</CommencementDate>
+      <BankDetails />
+    </SavingPlan>
+    <CashWithdrawalPlan>
+      <Amount>250</Amount>
+      <CommencementDate>2016-10-20</CommencementDate>
+      <BankDetails />
+      <Frequency>Monthly</Frequency>
+    </CashWithdrawalPlan>
+    <InvestmentAuthority>
+      <InvestmentAuthorityRecord>
+        <AssetCode>d</AssetCode>
+        <NameOfInvestment>test</NameOfInvestment>
+        <Allocation>10</Allocation>
+      </InvestmentAuthorityRecord>
+    </InvestmentAuthority>
+  </FisApplication>
+</Application>

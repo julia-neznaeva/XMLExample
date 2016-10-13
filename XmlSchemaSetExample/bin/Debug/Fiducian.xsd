@@ -1,0 +1,2951 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 (x64) (http://www.altova.com) by IT Department (Fiducian Services Pty Limited) -->
+<xs:schema xmlns="http://www.fiducian.com.au/NewApp" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:altova="http://www.altova.com/xml-schema-extensions" targetNamespace="http://www.fiducian.com.au/NewApp" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<xs:simpleType name="ABNType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="11"/>
+			<xs:minLength value="11"/>
+			<xs:pattern value="[0-9]{11}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AccountIdType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="16"/>
+			<xs:pattern value="[0-9a-zA-Z\s]{1,16}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ACNType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="11"/>
+			<xs:minLength value="1"/>
+			<xs:pattern value="[0-9]{9}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Address">
+		<xs:sequence>
+			<xs:element name="Line1" type="Text1To100Type">
+				<xs:annotation>
+					<xs:documentation>First line of address.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Line2" type="Text1To50Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Second line of address (if applicable)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Suburb">
+				<xs:annotation>
+					<xs:documentation>Suburb or City</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Text1To50Type">
+						<xs:maxLength value="50"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="State" type="Text1To30Type">
+				<xs:annotation>
+					<xs:documentation>State</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PostCode" type="Text1To10Type">
+				<xs:annotation>
+					<xs:documentation>PostCode or ZipCode</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Country" type="CountryType" default="AU" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Country (if not Australia)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Application">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="AppInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Id" type="Identifier">
+								<xs:annotation>
+									<xs:documentation>Unique identifier for the Application</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="AppDate" type="xs:date">
+								<xs:annotation>
+									<xs:documentation>Application Date</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="AdviserId" type="xs:int"/>
+							<xs:element name="ProductCode" type="ProductCodeType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:choice>
+					<xs:element name="FisApplication" type="FisApplicationType"/>
+					<xs:element name="FssSuperApplication" type="FssSuperApplicationType"/>
+					<xs:element name="FssPensionApplication" type="FssPensionApplicationType"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ApplicationFees">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element name="FisFees" type="FisFeesType"/>
+				<xs:element name="SuperFees" type="SuperFeesType"/>
+				<xs:element name="PensionFees" type="PensionFeesType"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="AssociatePersonType">
+		<xs:sequence>
+			<xs:element name="Title" type="TitleType" minOccurs="0"/>
+			<xs:element name="GivenName" type="Text1To60Type"/>
+			<xs:element name="Surname" type="Text1To60Type"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AustralianDriversLicenceType">
+		<xs:sequence>
+			<xs:element name="VerifiedFrom" type="IDVerificationType"/>
+			<xs:element name="StateIssued" type="AustralianStateType"/>
+			<xs:element name="IssueDate" type="xs:date"/>
+			<xs:element name="ExpiryDate" type="xs:date"/>
+			<xs:element name="DocumentNumber" type="Text1To100Type"/>
+			<xs:element name="EnglishTranslation" type="IDEnglishTranslationType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AustralianPassportType">
+		<xs:sequence>
+			<xs:element name="VerifiedFrom" type="IDVerificationType"/>
+			<xs:element name="DocumentIssuer" type="DocumentIssuerType"/>
+			<xs:element name="IssueDate" type="xs:date"/>
+			<xs:element name="ExpiryDate" type="xs:date"/>
+			<xs:element name="DocumentNumber" type="Text1To100Type"/>
+			<xs:element name="EnglishTranslation" type="IDEnglishTranslationType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="AustralianStateType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AAT"/>
+			<xs:enumeration value="ACT"/>
+			<xs:enumeration value="NSW"/>
+			<xs:enumeration value="NT"/>
+			<xs:enumeration value="QLD"/>
+			<xs:enumeration value="SA"/>
+			<xs:enumeration value="TAS"/>
+			<xs:enumeration value="VIC"/>
+			<xs:enumeration value="WA"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="BankDetailsType">
+		<xs:sequence>
+			<xs:element name="FinancialInstitutionName" type="Text1To100Type" minOccurs="0"/>
+			<xs:element name="BranchName" type="Text1To100Type" minOccurs="0"/>
+			<xs:element name="AccountName" type="Text1To60Type"/>
+			<xs:element name="BSB" type="NumericString6Type"/>
+			<xs:element name="AccountNumber" type="NumericStringMax20Type"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Beneficiary">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="Person">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Title" type="TitleType" minOccurs="0"/>
+							<xs:element name="Relationship" type="Relationship"/>
+							<xs:element name="GivenName" type="Text1To100Type"/>
+							<xs:element name="Surname" type="Text1To100Type"/>
+							<xs:element name="DOB" type="xs:date">
+								<xs:annotation>
+									<xs:documentation>Date of Birth</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="LegalPersonalRepresentative" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>Legal Personal Representative</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="PortionOfBenefit" type="Percentage">
+				<xs:annotation>
+					<xs:documentation>Total must equal 100%</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CashWithdrawalPlanType">
+		<xs:sequence>
+			<xs:element name="Amount" type="MonetaryAmount">
+				<xs:annotation>
+					<xs:documentation>Minimum $250</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CommencementDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Commencing on the 15th of the month</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BankDetails" type="BankDetailsType"/>
+			<xs:element name="Frequency" type="FrequencyType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ClientPerson">
+		<xs:sequence>
+			<xs:element name="Title" type="TitleType" minOccurs="0"/>
+			<xs:element name="GivenName" type="Text1To60Type"/>
+			<xs:element name="Surname" type="Text1To60Type"/>
+			<xs:choice>
+				<xs:element name="TFN" type="TFNType" nillable="true">
+					<xs:annotation>
+						<xs:documentation>Tax File Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TFNExemptionCode" type="TFNExemptionCodeType"/>
+			</xs:choice>
+			<xs:element name="DOB" type="xs:date" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Person's Date of Birth</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Gender" type="GenderType" nillable="true"/>
+			<xs:element name="CountryOfResidence" type="CountryType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Country of residence for taxation purposes (if not Australia)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IdentificationDocuments" type="IdentificationDocumentsType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CommunicationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Post"/>
+			<xs:enumeration value="Email"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CompanyClientType">
+		<xs:sequence>
+			<xs:element name="Name" type="Text1To100Type">
+				<xs:annotation>
+					<xs:documentation>Company name</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TradingName" type="Text1To100Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Trading name</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ABN" type="ABNType"/>
+			<xs:choice>
+				<xs:element name="TFN" type="TFNType"/>
+				<xs:element name="TFNExemptionCode" type="TFNExemptionCodeType"/>
+			</xs:choice>
+			<xs:element name="Correspondent" type="CorrespondentType"/>
+			<xs:element name="Directors">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Director" type="AssociatePersonType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContactDetailsType">
+		<xs:sequence>
+			<xs:element name="ResidentialAddress" type="Address">
+				<xs:annotation>
+					<xs:documentation>Residential address</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PostalSameAsResidential" type="xs:boolean"/>
+			<xs:element name="PostalAddress" type="Address" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Must be presented if different to residential address</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EmailAddress" type="Text1To100Type"/>
+			<xs:element name="PhoneNumbers" type="PhoneNumbersType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContributionComponents">
+		<xs:sequence>
+			<xs:element name="SuperannuationGuarantee" type="MonetaryAmount" minOccurs="0"/>
+			<xs:element name="SalarySacrifice" type="MonetaryAmount" minOccurs="0"/>
+			<xs:element name="EmployerVoluntary" type="MonetaryAmount" minOccurs="0"/>
+			<xs:element name="PersonalConcessional" type="MonetaryAmount" minOccurs="0"/>
+			<xs:element name="PersonalNonConcessional" type="MonetaryAmount" minOccurs="0"/>
+			<xs:element name="Spouse" type="MonetaryAmount" minOccurs="0"/>
+			<xs:element name="GovernmentCoContribution" type="MonetaryAmount" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Government Co-contribution</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LowIncomeSuperContribution" type="MonetaryAmount" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Low Income Super Contribution</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SmallBusinessRetirementExemptionAmount" type="MonetaryAmount" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Small Business Retirement Exemption Amount</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SmallBusiness15YearRetirementExemptionAmount" type="MonetaryAmount" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Small business 15-year retirement exemption amount</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ForeignFundsTaxable" type="MonetaryAmount" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Foreign Funds Taxable Contribution</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ForeignFundsNonTaxable" type="MonetaryAmount" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Foreign Funds Non-taxable Contribution</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PersonalInjurySettlement" type="MonetaryAmount" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Personal Injury Settlement Contribution</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CorporateTrusteeClientType">
+		<xs:sequence>
+			<xs:element name="Name" type="Text1To100Type">
+				<xs:annotation>
+					<xs:documentation>Name of corporate trustee (company)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ABN" type="ABNType"/>
+			<xs:element name="ACN" type="ACNType" minOccurs="0"/>
+			<xs:choice minOccurs="0">
+				<xs:element name="TFN" type="TFNType"/>
+				<xs:element name="TFNExemptionCode" type="TFNExemptionCodeType"/>
+			</xs:choice>
+			<xs:element name="CountryOfResidence" type="CountryType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Country of residence for taxation purposes (if not Australia)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Correspondent" type="CorrespondentType"/>
+			<xs:element name="Directors">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Director" type="AssociatePersonType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CorporateTrusteeType">
+		<xs:sequence>
+			<xs:element name="CompanyName" type="Text1To60Type">
+				<xs:annotation>
+					<xs:documentation>Company Name</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ABN" type="ABNType" minOccurs="0"/>
+			<xs:element name="ACN" type="ACNType" minOccurs="0"/>
+			<xs:element name="Directors">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Director" type="AssociatePersonType" maxOccurs="4"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CorrespondentType">
+		<xs:sequence>
+			<xs:element name="Title" type="TitleType" minOccurs="0"/>
+			<xs:element name="GivenName" type="Text1To60Type"/>
+			<xs:element name="Surname" type="Text1To60Type"/>
+			<xs:element name="ResidentialAddress" type="Address"/>
+			<xs:element name="PostalSameAsResidential" type="xs:boolean"/>
+			<xs:element name="PostalAddress" type="Address" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Must be presented if different to residential address</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EmailAddress" type="Text1To100Type"/>
+			<xs:element name="PhoneNumbers" type="PhoneNumbersType" minOccurs="0"/>
+			<xs:element name="IdentificationDocuments" type="IdentificationDocumentsType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CountryType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AF">
+				<xs:annotation>
+					<xs:documentation>AFGHANISTAN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AX">
+				<xs:annotation>
+					<xs:documentation>ÅLAND ISLANDS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AL">
+				<xs:annotation>
+					<xs:documentation>ALBANIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DZ">
+				<xs:annotation>
+					<xs:documentation>ALGERIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AS">
+				<xs:annotation>
+					<xs:documentation>AMERICAN SAMOA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AD">
+				<xs:annotation>
+					<xs:documentation>ANDORRA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AO">
+				<xs:annotation>
+					<xs:documentation>ANGOLA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AI">
+				<xs:annotation>
+					<xs:documentation>ANGUILLA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AQ">
+				<xs:annotation>
+					<xs:documentation>ANTARCTICA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AG">
+				<xs:annotation>
+					<xs:documentation>ANTIGUA AND BARBUDA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AR">
+				<xs:annotation>
+					<xs:documentation>ARGENTINA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AM">
+				<xs:annotation>
+					<xs:documentation>ARMENIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AW">
+				<xs:annotation>
+					<xs:documentation>ARUBA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AU">
+				<xs:annotation>
+					<xs:documentation>AUSTRALIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AT">
+				<xs:annotation>
+					<xs:documentation>AUSTRIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AZ">
+				<xs:annotation>
+					<xs:documentation>AZERBAIJAN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BS">
+				<xs:annotation>
+					<xs:documentation>BAHAMAS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BH">
+				<xs:annotation>
+					<xs:documentation>BAHRAIN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BD">
+				<xs:annotation>
+					<xs:documentation>BANGLADESH </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BB">
+				<xs:annotation>
+					<xs:documentation>BARBADOS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BY">
+				<xs:annotation>
+					<xs:documentation>BELARUS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BE">
+				<xs:annotation>
+					<xs:documentation>BELGIUM </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BZ">
+				<xs:annotation>
+					<xs:documentation>BELIZE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BJ">
+				<xs:annotation>
+					<xs:documentation>BENIN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BM">
+				<xs:annotation>
+					<xs:documentation>BERMUDA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BT">
+				<xs:annotation>
+					<xs:documentation>BHUTAN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BO">
+				<xs:annotation>
+					<xs:documentation>BOLIVIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BA">
+				<xs:annotation>
+					<xs:documentation>BOSNIA AND HERZEGOVINA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BW">
+				<xs:annotation>
+					<xs:documentation>BOTSWANA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BV">
+				<xs:annotation>
+					<xs:documentation>BOUVET ISLAND </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BR">
+				<xs:annotation>
+					<xs:documentation>BRAZIL </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="IO">
+				<xs:annotation>
+					<xs:documentation>BRITISH INDIAN OCEAN TERRITORY </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BN">
+				<xs:annotation>
+					<xs:documentation>BRUNEI DARUSSALAM </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BG">
+				<xs:annotation>
+					<xs:documentation>BULGARIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BF">
+				<xs:annotation>
+					<xs:documentation>BURKINA FASO </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BI">
+				<xs:annotation>
+					<xs:documentation>BURUNDI </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="KH">
+				<xs:annotation>
+					<xs:documentation>CAMBODIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CM">
+				<xs:annotation>
+					<xs:documentation>CAMEROON </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CA">
+				<xs:annotation>
+					<xs:documentation>CANADA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CV">
+				<xs:annotation>
+					<xs:documentation>CAPE VERDE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="KY">
+				<xs:annotation>
+					<xs:documentation>CAYMAN ISLANDS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CF">
+				<xs:annotation>
+					<xs:documentation>CENTRAL AFRICAN REPUBLIC </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TD">
+				<xs:annotation>
+					<xs:documentation>CHAD </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CL">
+				<xs:annotation>
+					<xs:documentation>CHILE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CN">
+				<xs:annotation>
+					<xs:documentation>CHINA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CX">
+				<xs:annotation>
+					<xs:documentation>CHRISTMAS ISLAND </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CC">
+				<xs:annotation>
+					<xs:documentation>COCOS (KEELING) ISLANDS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CO">
+				<xs:annotation>
+					<xs:documentation>COLOMBIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="KM">
+				<xs:annotation>
+					<xs:documentation>COMOROS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CG">
+				<xs:annotation>
+					<xs:documentation>CONGO </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CD">
+				<xs:annotation>
+					<xs:documentation>CONGO, THE DEMOCRATIC REPUBLIC OF THE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CK">
+				<xs:annotation>
+					<xs:documentation>COOK ISLANDS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CR">
+				<xs:annotation>
+					<xs:documentation>COSTA RICA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CI">
+				<xs:annotation>
+					<xs:documentation>CÔTE D'IVOIRE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HR">
+				<xs:annotation>
+					<xs:documentation>CROATIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CU">
+				<xs:annotation>
+					<xs:documentation>CUBA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CY">
+				<xs:annotation>
+					<xs:documentation>CYPRUS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CZ">
+				<xs:annotation>
+					<xs:documentation>CZECH REPUBLIC </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DK">
+				<xs:annotation>
+					<xs:documentation>DENMARK </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DJ">
+				<xs:annotation>
+					<xs:documentation>DJIBOUTI </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DM">
+				<xs:annotation>
+					<xs:documentation>DOMINICA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DO">
+				<xs:annotation>
+					<xs:documentation>DOMINICAN REPUBLIC </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="EC">
+				<xs:annotation>
+					<xs:documentation>ECUADOR </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="EG">
+				<xs:annotation>
+					<xs:documentation>EGYPT </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SV">
+				<xs:annotation>
+					<xs:documentation>EL SALVADOR </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GQ">
+				<xs:annotation>
+					<xs:documentation>EQUATORIAL GUINEA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ER">
+				<xs:annotation>
+					<xs:documentation>ERITREA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="EE">
+				<xs:annotation>
+					<xs:documentation>ESTONIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ET">
+				<xs:annotation>
+					<xs:documentation>ETHIOPIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="FK">
+				<xs:annotation>
+					<xs:documentation>FALKLAND ISLANDS (MALVINAS) </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="FO">
+				<xs:annotation>
+					<xs:documentation>FAROE ISLANDS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="FJ">
+				<xs:annotation>
+					<xs:documentation>FIJI </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="FI">
+				<xs:annotation>
+					<xs:documentation>FINLAND </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="FR">
+				<xs:annotation>
+					<xs:documentation>FRANCE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GF">
+				<xs:annotation>
+					<xs:documentation>FRENCH GUIANA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PF">
+				<xs:annotation>
+					<xs:documentation>FRENCH POLYNESIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TF">
+				<xs:annotation>
+					<xs:documentation>FRENCH SOUTHERN TERRITORIES </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GA">
+				<xs:annotation>
+					<xs:documentation>GABON </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GM">
+				<xs:annotation>
+					<xs:documentation>GAMBIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GE">
+				<xs:annotation>
+					<xs:documentation>GEORGIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DE">
+				<xs:annotation>
+					<xs:documentation>GERMANY </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GH">
+				<xs:annotation>
+					<xs:documentation>GHANA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GI">
+				<xs:annotation>
+					<xs:documentation>GIBRALTAR </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GR">
+				<xs:annotation>
+					<xs:documentation>GREECE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GL">
+				<xs:annotation>
+					<xs:documentation>GREENLAND </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GD">
+				<xs:annotation>
+					<xs:documentation>GRENADA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GP">
+				<xs:annotation>
+					<xs:documentation>GUADELOUPE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GU">
+				<xs:annotation>
+					<xs:documentation>GUAM </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GT">
+				<xs:annotation>
+					<xs:documentation>GUATEMALA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GG">
+				<xs:annotation>
+					<xs:documentation>GUERNSEY </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GN">
+				<xs:annotation>
+					<xs:documentation>GUINEA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GW">
+				<xs:annotation>
+					<xs:documentation>GUINEA-BISSAU </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GY">
+				<xs:annotation>
+					<xs:documentation>GUYANA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HT">
+				<xs:annotation>
+					<xs:documentation>HAITI </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HM">
+				<xs:annotation>
+					<xs:documentation>HEARD ISLAND AND MCDONALD ISLANDS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="VA">
+				<xs:annotation>
+					<xs:documentation>VATICAN CITY STATE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HN">
+				<xs:annotation>
+					<xs:documentation>HONDURAS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HK">
+				<xs:annotation>
+					<xs:documentation>HONG KONG </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HU">
+				<xs:annotation>
+					<xs:documentation>HUNGARY </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="IS">
+				<xs:annotation>
+					<xs:documentation>ICELAND </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="IN">
+				<xs:annotation>
+					<xs:documentation>INDIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ID">
+				<xs:annotation>
+					<xs:documentation>INDONESIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="IR">
+				<xs:annotation>
+					<xs:documentation>IRAN, ISLAMIC REPUBLIC OF </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="IQ">
+				<xs:annotation>
+					<xs:documentation>IRAQ </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="IE">
+				<xs:annotation>
+					<xs:documentation>IRELAND </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="IM">
+				<xs:annotation>
+					<xs:documentation>ISLE OF MAN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="IL">
+				<xs:annotation>
+					<xs:documentation>ISRAEL </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="IT">
+				<xs:annotation>
+					<xs:documentation>ITALY </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="JM">
+				<xs:annotation>
+					<xs:documentation>JAMAICA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="JP">
+				<xs:annotation>
+					<xs:documentation>JAPAN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="JE">
+				<xs:annotation>
+					<xs:documentation>JERSEY </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="JO">
+				<xs:annotation>
+					<xs:documentation>JORDAN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="KZ">
+				<xs:annotation>
+					<xs:documentation>KAZAKHSTAN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="KE">
+				<xs:annotation>
+					<xs:documentation>KENYA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="KI">
+				<xs:annotation>
+					<xs:documentation>KIRIBATI </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="KP">
+				<xs:annotation>
+					<xs:documentation>KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="KR">
+				<xs:annotation>
+					<xs:documentation>KOREA, REPUBLIC OF </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="KW">
+				<xs:annotation>
+					<xs:documentation>KUWAIT </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="KG">
+				<xs:annotation>
+					<xs:documentation>KYRGYZSTAN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LA">
+				<xs:annotation>
+					<xs:documentation>LAO PEOPLE'S DEMOCRATIC REPUBLIC </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LV">
+				<xs:annotation>
+					<xs:documentation>LATVIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LB">
+				<xs:annotation>
+					<xs:documentation>LEBANON </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LS">
+				<xs:annotation>
+					<xs:documentation>LESOTHO </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LR">
+				<xs:annotation>
+					<xs:documentation>LIBERIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LY">
+				<xs:annotation>
+					<xs:documentation>LIBYAN ARAB JAMAHIRIYA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LI">
+				<xs:annotation>
+					<xs:documentation>LIECHTENSTEIN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LT">
+				<xs:annotation>
+					<xs:documentation>LITHUANIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LU">
+				<xs:annotation>
+					<xs:documentation>LUXEMBOURG </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MO">
+				<xs:annotation>
+					<xs:documentation>MACAO </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MK">
+				<xs:annotation>
+					<xs:documentation>MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MG">
+				<xs:annotation>
+					<xs:documentation>MADAGASCAR </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MW">
+				<xs:annotation>
+					<xs:documentation>MALAWI </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MY">
+				<xs:annotation>
+					<xs:documentation>MALAYSIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MV">
+				<xs:annotation>
+					<xs:documentation>MALDIVES </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ML">
+				<xs:annotation>
+					<xs:documentation>MALI </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MT">
+				<xs:annotation>
+					<xs:documentation>MALTA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MH">
+				<xs:annotation>
+					<xs:documentation>MARSHALL ISLANDS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MQ">
+				<xs:annotation>
+					<xs:documentation>MARTINIQUE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MR">
+				<xs:annotation>
+					<xs:documentation>MAURITANIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MU">
+				<xs:annotation>
+					<xs:documentation>MAURITIUS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="YT">
+				<xs:annotation>
+					<xs:documentation>MAYOTTE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MX">
+				<xs:annotation>
+					<xs:documentation>MEXICO </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="FM">
+				<xs:annotation>
+					<xs:documentation>MICRONESIA, FEDERATED STATES OF </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MD">
+				<xs:annotation>
+					<xs:documentation>MOLDOVA, REPUBLIC OF </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MC">
+				<xs:annotation>
+					<xs:documentation>MONACO </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MN">
+				<xs:annotation>
+					<xs:documentation>MONGOLIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ME">
+				<xs:annotation>
+					<xs:documentation>MONTENEGRO </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MS">
+				<xs:annotation>
+					<xs:documentation>MONTSERRAT </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MA">
+				<xs:annotation>
+					<xs:documentation>MOROCCO </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MZ">
+				<xs:annotation>
+					<xs:documentation>MOZAMBIQUE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MM">
+				<xs:annotation>
+					<xs:documentation>MYANMAR </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NA">
+				<xs:annotation>
+					<xs:documentation>NAMIBIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NR">
+				<xs:annotation>
+					<xs:documentation>NAURU </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NP">
+				<xs:annotation>
+					<xs:documentation>NEPAL </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NL">
+				<xs:annotation>
+					<xs:documentation>NETHERLANDS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AN">
+				<xs:annotation>
+					<xs:documentation>NETHERLANDS ANTILLES </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NC">
+				<xs:annotation>
+					<xs:documentation>NEW CALEDONIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NZ">
+				<xs:annotation>
+					<xs:documentation>NEW ZEALAND </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NI">
+				<xs:annotation>
+					<xs:documentation>NICARAGUA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NE">
+				<xs:annotation>
+					<xs:documentation>NIGER </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NG">
+				<xs:annotation>
+					<xs:documentation>NIGERIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NU">
+				<xs:annotation>
+					<xs:documentation>NIUE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NF">
+				<xs:annotation>
+					<xs:documentation>NORFOLK ISLAND </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MP">
+				<xs:annotation>
+					<xs:documentation>NORTHERN MARIANA ISLANDS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NO">
+				<xs:annotation>
+					<xs:documentation>NORWAY </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="OM">
+				<xs:annotation>
+					<xs:documentation>OMAN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PK">
+				<xs:annotation>
+					<xs:documentation>PAKISTAN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PW">
+				<xs:annotation>
+					<xs:documentation>PALAU </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PS">
+				<xs:annotation>
+					<xs:documentation>PALESTINIAN TERRITORY, OCCUPIED </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PA">
+				<xs:annotation>
+					<xs:documentation>PANAMA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PG">
+				<xs:annotation>
+					<xs:documentation>PAPUA NEW GUINEA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PY">
+				<xs:annotation>
+					<xs:documentation>PARAGUAY </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PE">
+				<xs:annotation>
+					<xs:documentation>PERU </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PH">
+				<xs:annotation>
+					<xs:documentation>PHILIPPINES </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PN">
+				<xs:annotation>
+					<xs:documentation>PITCAIRN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PL">
+				<xs:annotation>
+					<xs:documentation>POLAND </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PT">
+				<xs:annotation>
+					<xs:documentation>PORTUGAL </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PR">
+				<xs:annotation>
+					<xs:documentation>PUERTO RICO </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="QA">
+				<xs:annotation>
+					<xs:documentation>QATAR </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RE">
+				<xs:annotation>
+					<xs:documentation>RÉUNION </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RO">
+				<xs:annotation>
+					<xs:documentation>ROMANIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RU">
+				<xs:annotation>
+					<xs:documentation>RUSSIAN FEDERATION </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RW">
+				<xs:annotation>
+					<xs:documentation>RWANDA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BL">
+				<xs:annotation>
+					<xs:documentation>SAINT BARTHÉLEMY </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SH">
+				<xs:annotation>
+					<xs:documentation>SAINT HELENA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="KN">
+				<xs:annotation>
+					<xs:documentation>SAINT KITTS AND NEVIS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LC">
+				<xs:annotation>
+					<xs:documentation>SAINT LUCIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MF">
+				<xs:annotation>
+					<xs:documentation>SAINT MARTIN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PM">
+				<xs:annotation>
+					<xs:documentation>SAINT PIERRE AND MIQUELON </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="VC">
+				<xs:annotation>
+					<xs:documentation>SAINT VINCENT AND THE GRENADINES </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="WS">
+				<xs:annotation>
+					<xs:documentation>SAMOA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SM">
+				<xs:annotation>
+					<xs:documentation>SAN MARINO </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ST">
+				<xs:annotation>
+					<xs:documentation>SAO TOME AND PRINCIPE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SA">
+				<xs:annotation>
+					<xs:documentation>SAUDI ARABIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SN">
+				<xs:annotation>
+					<xs:documentation>SENEGAL </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RS">
+				<xs:annotation>
+					<xs:documentation>SERBIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SC">
+				<xs:annotation>
+					<xs:documentation>SEYCHELLES </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SL">
+				<xs:annotation>
+					<xs:documentation>SIERRA LEONE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SG">
+				<xs:annotation>
+					<xs:documentation>SINGAPORE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SK">
+				<xs:annotation>
+					<xs:documentation>SLOVAKIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SI">
+				<xs:annotation>
+					<xs:documentation>SLOVENIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SB">
+				<xs:annotation>
+					<xs:documentation>SOLOMON ISLANDS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SO">
+				<xs:annotation>
+					<xs:documentation>SOMALIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZA">
+				<xs:annotation>
+					<xs:documentation>SOUTH AFRICA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GS">
+				<xs:annotation>
+					<xs:documentation>SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ES">
+				<xs:annotation>
+					<xs:documentation>SPAIN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LK">
+				<xs:annotation>
+					<xs:documentation>SRI LANKA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SD">
+				<xs:annotation>
+					<xs:documentation>SUDAN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SR">
+				<xs:annotation>
+					<xs:documentation>SURINAME </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SJ">
+				<xs:annotation>
+					<xs:documentation>SVALBARD AND JAN MAYEN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SZ">
+				<xs:annotation>
+					<xs:documentation>SWAZILAND </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SE">
+				<xs:annotation>
+					<xs:documentation>SWEDEN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CH">
+				<xs:annotation>
+					<xs:documentation>SWITZERLAND </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SY">
+				<xs:annotation>
+					<xs:documentation>SYRIAN ARAB REPUBLIC </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TW">
+				<xs:annotation>
+					<xs:documentation>TAIWAN, PROVINCE OF CHINA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TJ">
+				<xs:annotation>
+					<xs:documentation>TAJIKISTAN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TZ">
+				<xs:annotation>
+					<xs:documentation>TANZANIA, UNITED REPUBLIC OF </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TH">
+				<xs:annotation>
+					<xs:documentation>THAILAND </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TL">
+				<xs:annotation>
+					<xs:documentation>TIMOR-LESTE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TG">
+				<xs:annotation>
+					<xs:documentation>TOGO </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TK">
+				<xs:annotation>
+					<xs:documentation>TOKELAU </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TO">
+				<xs:annotation>
+					<xs:documentation>TONGA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TT">
+				<xs:annotation>
+					<xs:documentation>TRINIDAD AND TOBAGO </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TN">
+				<xs:annotation>
+					<xs:documentation>TUNISIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TR">
+				<xs:annotation>
+					<xs:documentation>TURKEY </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TM">
+				<xs:annotation>
+					<xs:documentation>TURKMENISTAN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TC">
+				<xs:annotation>
+					<xs:documentation>TURKS AND CAICOS ISLANDS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TV">
+				<xs:annotation>
+					<xs:documentation>TUVALU </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UG">
+				<xs:annotation>
+					<xs:documentation>UGANDA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UA">
+				<xs:annotation>
+					<xs:documentation>UKRAINE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AE">
+				<xs:annotation>
+					<xs:documentation>UNITED ARAB EMIRATES </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GB">
+				<xs:annotation>
+					<xs:documentation>UNITED KINGDOM </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="US">
+				<xs:annotation>
+					<xs:documentation>UNITED STATES </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UM">
+				<xs:annotation>
+					<xs:documentation>UNITED STATES MINOR OUTLYING ISLANDS </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UY">
+				<xs:annotation>
+					<xs:documentation>URUGUAY </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UZ">
+				<xs:annotation>
+					<xs:documentation>UZBEKISTAN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="VU">
+				<xs:annotation>
+					<xs:documentation>VANUATU </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="VE">
+				<xs:annotation>
+					<xs:documentation>VENEZUELA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="VN">
+				<xs:annotation>
+					<xs:documentation>VIET NAM </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="VG">
+				<xs:annotation>
+					<xs:documentation>VIRGIN ISLANDS, BRITISH </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="VI">
+				<xs:annotation>
+					<xs:documentation>VIRGIN ISLANDS, U.S. </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="WF">
+				<xs:annotation>
+					<xs:documentation>WALLIS AND FUTUNA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="EH">
+				<xs:annotation>
+					<xs:documentation>WESTERN SAHARA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="YE">
+				<xs:annotation>
+					<xs:documentation>YEMEN </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZM">
+				<xs:annotation>
+					<xs:documentation>ZAMBIA </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZW">
+				<xs:annotation>
+					<xs:documentation>ZIMBABWE </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Unknown">
+				<xs:annotation>
+					<xs:documentation>Country Unknown</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DocumentIssuerType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Australian Government"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ExpectedRollover">
+		<xs:sequence>
+			<xs:element name="NameOfFund" type="Text1To200Type">
+				<xs:annotation>
+					<xs:documentation>Rollover Fund name</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Amount" type="MonetaryAmount"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FeeScaleType">
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string"/>
+			<xs:element name="Description" type="xs:string" minOccurs="0"/>
+			<xs:element name="FeeScaleDetails" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="LowerThreshold" type="MonetaryAmount"/>
+						<xs:element name="UpperThreshold" type="MonetaryAmount"/>
+						<xs:choice>
+							<xs:element name="Amount" type="MonetaryAmount"/>
+							<xs:element name="Rate" type="Percentage"/>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FisApplicationType">
+		<xs:sequence>
+			<xs:element name="ApplicantDetails">
+				<xs:annotation>
+					<xs:documentation>Investor Details</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:element name="Individual">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Person" type="ClientPerson"/>
+										<xs:element name="ContactDetails" type="ContactDetailsType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Joint">
+								<xs:annotation>
+									<xs:documentation>Joint account</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="PersonOne" type="ClientPerson"/>
+										<xs:element name="PersonTwo" type="ClientPerson"/>
+										<xs:element name="ContactDetails" type="ContactDetailsType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SuperFund" type="SuperFundClientType">
+								<xs:annotation>
+									<xs:documentation>•A self-managed super fund that has a corporate trustee
+•A self-managed super fund that has individual trustees
+</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Company">
+								<xs:annotation>
+									<xs:documentation>This is used where the account is in the name of a registered company</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="CompanyClientType"/>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="CorporateTrustee" type="CorporateTrusteeClientType">
+								<xs:annotation>
+									<xs:documentation>This is should be used where the account is in the name of a family trust that has a corporate trustee</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="IndividualTrustee_FamilyTrust" type="IndividualTrusteeClientType">
+								<xs:annotation>
+									<xs:documentation>A family trust that has individual trustees</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="IndividualTrustee_InformalTrust" type="InformalTrustClientType">
+								<xs:annotation>
+									<xs:documentation>Informal trusts e.g. account for a child but adult assumes responsibility (incl. tax)
+</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:choice>
+						<xs:element name="KYCCheckedDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>KYC checked date</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="KYCValidUntilDate" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>KYC valid until Date</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PreferredCommunicationMethod" type="CommunicationType"/>
+						<xs:element name="DoNotSendMarketingInfo" type="xs:boolean" default="false">
+							<xs:annotation>
+								<xs:documentation>"Do not send any direct marketing information to me"</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="InitialInvestments" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="InitialInvestment" type="InitialInvestmentType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="InvestmentAuthority">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="InvestmentAuthorityRecord" type="InvestmentAuthorityRecordType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SavingsPlan" type="SavingsPlanType" minOccurs="0"/>
+			<xs:element name="CashWithdrawalPlan" type="CashWithdrawalPlanType" minOccurs="0"/>
+			<xs:element name="SourceOfFunds" type="SourceOfFundsType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Source of Funds (SoF) - What is the source of the funds to be deposited into this account?</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SourceOfWealth" type="SourceOfWealthType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Source of Wealth (SoW) - What is the source of accumulated net worth?</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AutomaticInvestmentSelection">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="InvestmentSelection" type="InvestmentSelectionType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AutomaticRedemptionOrder">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RedemptionOrder" type="RedemptionOrderType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Fees" type="FisFeesType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FisFeesType">
+		<xs:sequence>
+			<xs:element name="LicenseeSupportServiceFee">
+				<xs:annotation>
+					<xs:documentation>Licensee Support Services</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Waived" type="xs:boolean"/>
+						<xs:element name="FeeScale" type="FeeScaleType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>If not waived. READONLY</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="InitialPlanningFee">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ImplementationPlanning" type="MonetaryAmount">
+							<xs:annotation>
+								<xs:documentation>Implementation Planning</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="InitialInvestment" type="Percentage">
+							<xs:annotation>
+								<xs:documentation>Initial Investment</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OngoingReviewFee">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="StandardScale" type="FeeScaleType"/>
+						<xs:element name="UseStandardScale" type="xs:boolean"/>
+						<xs:element name="FlatRate" type="Percentage" minOccurs="0"/>
+						<xs:element name="DollarBasedFee" type="MonetaryAmount" minOccurs="0"/>
+						<xs:element name="VariableScale" type="FeeScaleType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ForeignIdentityDocumentType">
+		<xs:sequence>
+			<xs:element name="VerifiedFrom" type="IDVerificationType"/>
+			<xs:element name="CountryIssued" type="CountryType"/>
+			<xs:element name="IssueDate" type="xs:date"/>
+			<xs:element name="ExpiryDate" type="xs:date"/>
+			<xs:element name="DocumentNumber" type="Text1To100Type"/>
+			<xs:element name="EnglishTranslation" type="IDEnglishTranslationType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="FrequencyType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Monthly"/>
+			<xs:enumeration value="Quarterly"/>
+			<xs:enumeration value="Biannually"/>
+			<xs:enumeration value="Annually"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="FssPensionApplicationType">
+		<xs:sequence>
+			<xs:element name="ApplicantDetails">
+				<xs:annotation>
+					<xs:documentation>Applicant’s details</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AccountID" type="AccountIdType">
+							<xs:annotation>
+								<xs:documentation>Existing Account ID</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ConversionDetails">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="FullConversion">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ApplyFullConversion" type="xs:boolean"/>
+									<xs:element name="Balance" type="MonetaryAmount" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PartialConversion">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AccountID" type="AccountIdType"/>
+									<xs:element name="LeavingAmount" type="MonetaryAmount">
+										<xs:annotation>
+											<xs:documentation>Amount left in super account</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="InvestmentsToBeLeft">
+										<xs:annotation>
+											<xs:documentation>Table to list investments that are to be left in the super
+account after conversion</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="InvestmentSelection" type="InvestmentSelectionType" maxOccurs="unbounded"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ResidualOptions">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="Reversionary">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SpouseDependantDetails" type="SpouseDependantDetailsType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="BindingNominations">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Beneficiary" type="Beneficiary" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="None" type="xs:boolean"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="InvestmentAuthority">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="RetainFundsInCash" type="xs:boolean"/>
+						<xs:element name="MaintainExistingInvestments" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Maintain existing investments</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="InvestUsingTable">
+							<xs:annotation>
+								<xs:documentation>Invest my initial contribution (after fees) as shown in the table below</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="InvestmentAuthorityRecord" type="InvestmentAuthorityRecordType" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AutomaticInvestmentSelection">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="MaintainExistingAutomaticInvestmentProfile" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Maintain existing automatic investment profile from super account</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="InvestmentSelection" type="InvestmentSelectionType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AutomaticRedemptionOrder">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="MaintainExistingAutomaticRedemptionProfile" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Maintain existing automatic redemption profile from super account</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="RedemptionOrder" type="RedemptionOrderType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PensionPaymentDetails">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="BankDetails" type="BankDetailsType"/>
+						<xs:element name="ConditionOfRelease">
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="Retired">
+										<xs:annotation>
+											<xs:documentation>I have reached my preservation age and am no longer gainfully
+employed and never again intend to become gainfully employed on
+a full-time or part-time basis.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Over60andUnder65">
+										<xs:annotation>
+											<xs:documentation>I am aged over 60 and under 65, and have terminated my
+employment arrangement on or after reaching the age of 60</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Over65">
+										<xs:annotation>
+											<xs:documentation>I am aged 65 or over.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="NonCommutablePension">
+										<xs:annotation>
+											<xs:documentation>I am aged 55 or older and wish to purchase a Non-Commutable
+Account Based Pension.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="NotRequired">
+										<xs:annotation>
+											<xs:documentation>No condition required for release</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Frequency" type="FrequencyType"/>
+						<xs:element name="DateOfFirstPayment" type="xs:date">
+							<xs:annotation>
+								<xs:documentation>Date of first payment</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AmountOfPensionRequested">
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="Minimum" type="xs:boolean"/>
+									<xs:element name="Maximum" type="xs:boolean">
+										<xs:annotation>
+											<xs:documentation>Maximum (only applicable for Non-Commutable Account Based Pension)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="BeforeTaxPaymentAmount" type="MonetaryAmount">
+										<xs:annotation>
+											<xs:documentation>Before tax payment amount of</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="TermAllocatedPensionDetails" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Term" type="xs:int"/>
+									<xs:element name="StandardPensionAmount" type="xs:boolean"/>
+									<xs:element name="SpecifiedAmount" type="MonetaryAmount" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>If StandardPensionAmount is FALSE</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ClaimTaxFreeThreshold" type="xs:boolean"/>
+						<xs:element name="ReduceByTaxFreePercentage" type="xs:boolean"/>
+						<xs:element name="ClaimTaxOffset" type="xs:boolean"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Fees" type="PensionFeesType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FssSuperApplicationType">
+		<xs:sequence>
+			<xs:element name="ApplicantDetails">
+				<xs:annotation>
+					<xs:documentation>Applicant’s details</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="ExistingClient">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AccountID" type="AccountIdType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="NewClient">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Person" type="ClientPerson"/>
+									<xs:element name="ContactDetails" type="ContactDetailsType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="InitialContributionDetails">
+				<xs:annotation>
+					<xs:documentation>Initial contribution details</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="InitialContribution" type="InitialInvestmentType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Initial Contributions</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ExpectedRollovers" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Expected transfers/rollovers from other funds</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ExpectedRollover" type="ExpectedRollover" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ContributionComponents" type="ContributionComponents">
+							<xs:annotation>
+								<xs:documentation>Contribution components</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SourceOfFunds" type="SourceOfFundsType" minOccurs="0"/>
+			<xs:element name="SourceOfWealth" type="SourceOfWealthType" minOccurs="0"/>
+			<xs:element name="SavingsPlan" type="SavingsPlanType">
+				<xs:annotation>
+					<xs:documentation>Savings plan details</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InvestmentAuthority">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RetainFundsInCash" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Retain initial funds temporarily in my Cash Account</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="InvestmentAuthorityRecord" type="InvestmentAuthorityRecordType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>If RetainFundsInCash is false</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AutomaticInvestmentSelection">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="InvestmentSelection" type="InvestmentSelectionType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AutomaticRedemptionOrder">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RedemptionOrder" type="RedemptionOrderType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Fees" type="SuperFeesType"/>
+			<xs:element name="ResidualOptions">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="BindingNominations">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Beneficiary" type="Beneficiary" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="None" type="xs:boolean"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="GenderType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Male"/>
+			<xs:enumeration value="Female"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IDEnglishTranslationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="N/A"/>
+			<xs:enumeration value="Sighted"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="IdentificationDocumentsType">
+		<xs:choice maxOccurs="unbounded">
+			<xs:element name="AustralianDriversLicence" type="AustralianDriversLicenceType">
+				<xs:annotation>
+					<xs:documentation>Australian driver's licence with photo and signature</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AustralianPassport" type="AustralianPassportType">
+				<xs:annotation>
+					<xs:documentation>Australian passport with photo and signature</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StateTerritoryIdCard" type="StateTerritoryIdCardType">
+				<xs:annotation>
+					<xs:documentation>State/Territory id card with photo and date of birth</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ForeignPassport" type="ForeignIdentityDocumentType">
+				<xs:annotation>
+					<xs:documentation>Foreign passport with photo and signature</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ForeignDriversLicence" type="ForeignIdentityDocumentType">
+				<xs:annotation>
+					<xs:documentation>Foreign driver's licence that contains a photograph and/or signature of the person in whose name it was issued </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NationalIdentityCard" type="ForeignIdentityDocumentType">
+				<xs:annotation>
+					<xs:documentation>National identity card issued by a foreign government, the United Nations or an agency of the United Nations containing a photo and signature of the person in whose name the card was issued</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="Identifier">
+		<xs:annotation>
+			<xs:documentation>GUID</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="60"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IDVerificationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Original"/>
+			<xs:enumeration value="Certified copy"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="IndividualTrusteeClientType">
+		<xs:sequence>
+			<xs:element name="Name" type="Text1To100Type">
+				<xs:annotation>
+					<xs:documentation>Trust Name</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ABN" type="ABNType"/>
+			<xs:choice minOccurs="0">
+				<xs:element name="TFN" type="TFNType"/>
+				<xs:element name="TFNExemptionCode" type="TFNExemptionCodeType"/>
+			</xs:choice>
+			<xs:element name="CountryOfResidence" type="CountryType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Country of residence for taxation purposes (if not Australia)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Correspondent" type="CorrespondentType"/>
+			<xs:element name="Trustees">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Trustee" type="IndividualTrusteeType" maxOccurs="4"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IndividualTrusteeType">
+		<xs:sequence>
+			<xs:element name="Title" type="TitleType" minOccurs="0"/>
+			<xs:element name="GivenName" type="Text1To60Type"/>
+			<xs:element name="Surname" type="Text1To60Type"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InformalTrustClientType">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="TFN" type="TFNType"/>
+				<xs:element name="TFNExemptionCode" type="TFNExemptionCodeType"/>
+			</xs:choice>
+			<xs:element name="CountryOfResidence" type="CountryType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Country of residence for taxation purposes (if not Australia)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Correspondent" type="CorrespondentType"/>
+			<xs:element name="Trustees">
+				<xs:annotation>
+					<xs:documentation>Child(ren)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Trustee" type="IndividualTrusteeType" maxOccurs="4"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InitialInvestmentType">
+		<xs:sequence>
+			<xs:element name="Type" type="InvestmentAmountType"/>
+			<xs:element name="Amount" type="MonetaryAmount"/>
+			<xs:element name="BankDetails" type="BankDetailsType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Bank details must be provided if Direct Debit and/or EFT options are selected</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="InvestmentAmountType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Direct Debit"/>
+			<xs:enumeration value="Cheque"/>
+			<xs:enumeration value="EFT"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="InvestmentAuthorityRecordType">
+		<xs:sequence>
+			<xs:element name="AssetCode" type="InvestmentCode">
+				<xs:annotation>
+					<xs:documentation>Unique code used to identify the Investment Product. ASX Code, APIR Code or Platform Providers identifier</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NameOfInvestment" type="Text1To100Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of investment</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Allocation" type="Percentage">
+				<xs:annotation>
+					<xs:documentation>Total must equal 100%</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DRP" type="xs:boolean" default="true" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Distribution Reinvestment Plan (applies to Fiducian Funds investments only). The default position for investments in Fiducian Funds is for distributions to be automatically reinvested into additional units.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="InvestmentCode">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="15"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="InvestmentSelectionType">
+		<xs:annotation>
+			<xs:documentation>Total of allocations for a profile should equate to 100%</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AssetCode" type="InvestmentCode">
+				<xs:annotation>
+					<xs:documentation>Unique code used to identify the Investment Product. ASX Code, APIR Code or Platform Providers identifier  (e.g. FIDCASH) </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NameOfInvestment" type="Text1To100Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of Investment Product</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Allocation" type="Percentage">
+				<xs:annotation>
+					<xs:documentation>Total must be 100%</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="MonetaryAmount">
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="11"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NumericString6Type">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{6}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NumericStringMax20Type">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{1,20}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NumericStringMax9Type">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{1,9}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="PensionFeesType">
+		<xs:sequence>
+			<xs:element name="LicenseeSupportServiceFee">
+				<xs:annotation>
+					<xs:documentation>Licensee Support Services</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Waived" type="xs:boolean"/>
+						<xs:element name="FeeScale" type="FeeScaleType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>If not waived. READONLY</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="InitialPlanningFee">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ImplementationPlanning" type="MonetaryAmount">
+							<xs:annotation>
+								<xs:documentation>Implementation Planning</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="InitialLumpSumContributions" type="Percentage">
+							<xs:annotation>
+								<xs:documentation>Initial Lump Sum Contributions</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="InitialTransfersRollovers" type="Percentage">
+							<xs:annotation>
+								<xs:documentation>Initial Transfers/Rollovers</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OngoingReviewFee">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="StandardScale" type="FeeScaleType"/>
+						<xs:element name="UseStandardScale" type="xs:boolean"/>
+						<xs:element name="FlatRate" type="Percentage" minOccurs="0"/>
+						<xs:element name="DollarBasedFee" type="MonetaryAmount" minOccurs="0"/>
+						<xs:element name="VariableScale" type="FeeScaleType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Percentage">
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="7"/>
+			<xs:fractionDigits value="4"/>
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PhoneNumber">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="50"/>
+			<xs:pattern value="(\+)?[0-9]{6,20}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="PhoneNumbersType">
+		<xs:choice maxOccurs="4">
+			<xs:element name="HomePhone" type="PhoneNumber">
+				<xs:annotation>
+					<xs:documentation>Home phone number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BusinessPhone" type="PhoneNumber">
+				<xs:annotation>
+					<xs:documentation>Work phone number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MobilePhone" type="PhoneNumber">
+				<xs:annotation>
+					<xs:documentation>Mobile phone number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Fax" type="PhoneNumber">
+				<xs:annotation>
+					<xs:documentation>Fax</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="ProductCodeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FIS"/>
+			<xs:enumeration value="FSS"/>
+			<xs:enumeration value="FSSABP"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="RedemptionOrderType">
+		<xs:sequence>
+			<xs:element name="AssetCode" type="InvestmentCode">
+				<xs:annotation>
+					<xs:documentation>Unique code used to identify the Investment Product. ASX Code, APIR Code or Platform Providers identifier  (e.g. FIDCASH) </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NameOfInvestment" type="Text1To100Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of investment</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RedemptionOrder">
+				<xs:annotation>
+					<xs:documentation>Order number [1..n]</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:unsignedShort">
+						<xs:minInclusive value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Relationship">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Spouse"/>
+			<xs:enumeration value="Child"/>
+			<xs:enumeration value="Interdependant"/>
+			<xs:enumeration value="FinancialDependant"/>
+			<xs:enumeration value="Representative"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SavingsPlanType">
+		<xs:sequence>
+			<xs:element name="Amount" type="MonetaryAmount">
+				<xs:annotation>
+					<xs:documentation>Monthly investment amount</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CommencementDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Commencing on the 20th of the month</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BankDetails" type="BankDetailsType"/>
+			<xs:element name="SavingsPlanAllocations">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="SavingsPlanAllocation" type="InvestmentSelectionType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ScaleDetail">
+		<xs:sequence>
+			<xs:element name="LowerThreshold" type="MonetaryAmount"/>
+			<xs:element name="UpperThreshold" type="MonetaryAmount"/>
+			<xs:choice>
+				<xs:element name="Amount" type="MonetaryAmount"/>
+				<xs:element name="Rate" type="Percentage"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SourceOfFundsType">
+		<xs:sequence>
+			<xs:element name="SalaryWages" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Salary/Wages</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Commission" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Commission</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Bonus" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Bonus</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BusinessIncomeEarnings" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Business income/earnings</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InvestmentIncomeEarnings" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Investment income/earnings</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RentalIncome" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Rental income</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SuperannuationPension" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Superannuation/pension</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Loan" type="xs:boolean"/>
+			<xs:element name="InsurancePayment" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Insurance payment</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CompensationPayment" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Compensation payment</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GovernmentBenefits" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Government benefits</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SaleOfAssets" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Sale of assets</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Redundancy" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Redundancy</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Inheritance" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Inheritance</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GiftDonation" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Gift/Donation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Windfall" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Windfall </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TaxRefund" type="xs:boolean"/>
+			<xs:element name="Others" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Others (please specify)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OthersDetails" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SourceOfWealthType">
+		<xs:sequence>
+			<xs:element name="EmploymentIncomeEarnings" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Commission</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Redundancy" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Redundancy </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BusinessIncomeEarnings" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Business income/earnings</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InvestmentIncomeEarnings" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Investment income/earnings</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RentalIncome" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Rental income</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SuperannuationPension" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Superannuation/pension</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InsurancePayment" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Insurance payment</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CompensationPayment" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Compensation payment</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GovernmentBenefits" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Government benefits</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OwnsRealEstateProperty" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Owns real estate/property</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SaleOfAssets" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Sale of assets</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Inheritance" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Inheritance</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GiftDonation" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Gift/Donation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Windfall" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Windfall </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Others" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Others (please specify)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OthersDetails" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SpouseDependantDetailsType">
+		<xs:sequence>
+			<xs:element name="Title" type="TitleType" minOccurs="0"/>
+			<xs:element name="GivenName" type="Text1To100Type"/>
+			<xs:element name="Surname" type="Text1To100Type"/>
+			<xs:element name="DOB" type="xs:date"/>
+			<xs:element name="Gender" type="GenderType"/>
+			<xs:element name="ResidentialAddress" type="Address"/>
+			<xs:element name="Relationship" type="SpouseDependantRelationship"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="SpouseDependantRelationship">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Spouse"/>
+			<xs:enumeration value="Dependant"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="StateTerritoryIdCardType">
+		<xs:sequence>
+			<xs:element name="VerifiedFrom" type="IDVerificationType"/>
+			<xs:element name="StateIssued" type="AustralianStateType"/>
+			<xs:element name="DocumentNumber" type="Text1To100Type"/>
+			<xs:element name="EnglishTranslation" type="IDEnglishTranslationType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SuperFeesType">
+		<xs:sequence>
+			<xs:element name="LicenseeSupportServiceFee">
+				<xs:annotation>
+					<xs:documentation>Licensee Support Services</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Waived" type="xs:boolean"/>
+						<xs:element name="FeeScale" type="FeeScaleType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>If not waived. READONLY</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="InitialPlanningFee">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ImplementationPlanning" type="MonetaryAmount">
+							<xs:annotation>
+								<xs:documentation>Implementation Planning</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="InitialLumpSumContributions" type="Percentage">
+							<xs:annotation>
+								<xs:documentation>Initial Lump Sum Contributions</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="InitialTransfersRollovers" type="Percentage">
+							<xs:annotation>
+								<xs:documentation>Initial Transfers/Rollovers</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OngoingReviewFee">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="StandardScale" type="FeeScaleType"/>
+						<xs:element name="UseStandardScale" type="xs:boolean"/>
+						<xs:element name="FlatRate" type="Percentage" minOccurs="0"/>
+						<xs:element name="DollarBasedFee" type="MonetaryAmount" minOccurs="0"/>
+						<xs:element name="VariableScale" type="FeeScaleType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SuperFundClientType">
+		<xs:sequence>
+			<xs:element name="Name" type="Text1To100Type">
+				<xs:annotation>
+					<xs:documentation>Name of corporate trustee (company) </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ABN" type="ABNType"/>
+			<xs:choice>
+				<xs:element name="TFN" type="TFNType"/>
+				<xs:element name="TFNExemptionCode" type="TFNExemptionCodeType"/>
+			</xs:choice>
+			<xs:element name="CountryOfResidence" type="CountryType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Country of residence for taxation purposes (if not Australia)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Correspondent" type="CorrespondentType"/>
+			<xs:element name="TrusteeType" type="TrusteeTypeType"/>
+			<xs:choice>
+				<xs:element name="CorporateTrustee" type="CorporateTrusteeType">
+					<xs:annotation>
+						<xs:documentation>If TrusteeType is Corporate</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="IndividualTrustees">
+					<xs:annotation>
+						<xs:documentation>If Trustee Type is Individual</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="IndividualTrustee" type="IndividualTrusteeType" maxOccurs="4"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Text1To100Type">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Text1To10Type">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Text1To200Type">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Text1To30Type">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Text1To50Type">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Text1To60Type">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="60"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TFNExemptionCodeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AGE">
+				<xs:annotation>
+					<xs:documentation>Aged Pension</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="INV">
+				<xs:annotation>
+					<xs:documentation>Invalid Pension</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SER">
+				<xs:annotation>
+					<xs:documentation>Service Pension</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="REH">
+				<xs:annotation>
+					<xs:documentation>Rehabilitation Allowance</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SOL">
+				<xs:annotation>
+					<xs:documentation>Sole Parent Pension</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="WID">
+				<xs:annotation>
+					<xs:documentation>Widow Pension</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="WIF">
+				<xs:annotation>
+					<xs:documentation>Wife Pension</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CAR">
+				<xs:annotation>
+					<xs:documentation>Carer Pension</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SPB">
+				<xs:annotation>
+					<xs:documentation>Special Benefit</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NPO">
+				<xs:annotation>
+					<xs:documentation>Non Profit Organisation</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TFNType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="9"/>
+			<xs:minLength value="8"/>
+			<xs:pattern value="[0-9]{8,9}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TitleType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value=""/>
+			<xs:enumeration value="Deacon"/>
+			<xs:enumeration value="Dr"/>
+			<xs:enumeration value="Father"/>
+			<xs:enumeration value="General"/>
+			<xs:enumeration value="Hon"/>
+			<xs:enumeration value="Master"/>
+			<xs:enumeration value="Miss"/>
+			<xs:enumeration value="Mr"/>
+			<xs:enumeration value="Mrs"/>
+			<xs:enumeration value="Ms"/>
+			<xs:enumeration value="Prof"/>
+			<xs:enumeration value="Rabbi"/>
+			<xs:enumeration value="Rev"/>
+			<xs:enumeration value="Sister"/>
+			<xs:enumeration value="Unknown"/>
+			<xs:enumeration value="Pastor"/>
+			<xs:enumeration value="Sergeant"/>
+			<xs:enumeration value="The Honourable"/>
+			<xs:enumeration value="Admiral"/>
+			<xs:enumeration value="Minister"/>
+			<xs:enumeration value="Warrant Officer"/>
+			<xs:enumeration value="Commissioner"/>
+			<xs:enumeration value="Lieutenant"/>
+			<xs:enumeration value="Inspector"/>
+			<xs:enumeration value="Superintendent"/>
+			<xs:enumeration value="Director"/>
+			<xs:enumeration value="Major"/>
+			<xs:enumeration value="Colonel"/>
+			<xs:enumeration value="Captain"/>
+			<xs:enumeration value="Chief"/>
+			<xs:enumeration value="Sir"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TrusteeTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Individual"/>
+			<xs:enumeration value="Corporate"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
+
